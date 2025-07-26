@@ -9,7 +9,7 @@
 
 ### Steps:
 
-1. Open the `repo-updater.py` file and change your GitHub info at the top:
+1. Open the `repo-updater.py` file and change GitHub info at the top:
 ```python
 GITHUB_USER = "your_username"
 REPO_NAME = "your_repository"
