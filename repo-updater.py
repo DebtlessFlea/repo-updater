@@ -5,9 +5,29 @@ import tempfile
 import shutil
 import filecmp
 
-GITHUB_USER = "your_username"
-REPO_NAME = "your_repo"
-BRANCH = "main"  # or "master"
+GITHUB_USER = "debtlessflea"
+REPO_NAME = "DebtlessFlea.github.io"
+BRANCH = "main"
+
+def move_current_to_old():
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    old_dir = os.path.join(current_dir, ".old")
+    os.makedirs(old_dir, exist_ok=True)
+
+    for item in os.listdir(current_dir):
+        if item in [".old", os.path.basename(__file__)]:
+            continue
+        src_path = os.path.join(current_dir, item)
+        dst_path = os.path.join(old_dir, item)
+        shutil.move(src_path, dst_path)
+    print("Moved current files to .old")
+
+def delete_old_folder():
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    old_dir = os.path.join(current_dir, ".old")
+    if os.path.exists(old_dir):
+        shutil.rmtree(old_dir)
+        print("Deleted .old folder")
 
 def download_repo_zip():
     url = f"https://github.com/{GITHUB_USER}/{REPO_NAME}/archive/refs/heads/{BRANCH}.zip"
@@ -42,13 +62,21 @@ def copy_updated_files(src_dir, dst_dir):
                 print(f"Updated: {os.path.relpath(dst_file, dst_dir)}")
 
 def main():
+    print("Moving current files to .old...")
+    move_current_to_old()
+
     print("Checking for updates from GitHub...")
     zip_path = download_repo_zip()
     repo_dir = extract_zip(zip_path)
     local_dir = os.path.dirname(os.path.abspath(__file__))
     copy_updated_files(repo_dir, local_dir)
+
     os.remove(zip_path)
     shutil.rmtree(os.path.dirname(repo_dir))
+
+    print("Deleting .old folder...")
+    delete_old_folder()
+
     print("Update complete.")
 
 if __name__ == "__main__":
