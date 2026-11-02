@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> This project is currently unmaintained. Bugs, errors, and compatibility issues may occur.
+ 
 ## 📋 Description
 **repo-updater** is a Python script that updates/fetches the files by downloading and extracting the latest version of a GitHub repository. It compares each file in the repository with the local version and replaces only the files that have changed or are missing.
 
